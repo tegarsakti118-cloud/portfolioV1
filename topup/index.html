@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SakaTopup — SakaPay</title>
+<style>
+:root {
+  --green:#17A897;
+  --dark:#15332F;
+  --bg:#F6F9F8;
+  --muted:#788681;
+  --line:#E5ECE9;
+  --white:#FFFFFF;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--dark);
+  font-family:Inter,Arial,sans-serif;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+header{
+  height:70px;background:white;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 max(20px,calc((100% - 1060px)/2));
+}
+.logo{font-size:22px;font-weight:800;letter-spacing:-1px}
+.logo span{color:var(--green)}
+.brand{
+  border:1px solid var(--line);border-radius:30px;
+  padding:8px 12px;font-size:12px;color:var(--muted);
+}
+main{max-width:1060px;margin:auto;padding:28px 18px 60px}
+.hero{
+  background:#E4F5F0;border-radius:20px;padding:30px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:15px;margin-bottom:28px;
+}
+.hero h1{font-size:clamp(25px,5vw,38px);letter-spacing:-1.5px;margin:0 0 10px}
+.hero p{color:#55716A;line-height:1.7;margin:0;max-width:480px}
+.hero-icon{font-size:48px;color:var(--green)}
+.section-title{font-size:17px;font-weight:750;margin:26px 0 14px}
+.games{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.game{
+  background:white;border:1px solid var(--line);border-radius:14px;
+  padding:15px 5px;color:var(--dark);font-size:12px;font-weight:650;
+}
+.game .emoji{display:block;font-size:27px;margin-bottom:10px}
+.game.active{border:1.5px solid var(--green);background:#EEFAF7}
+.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
+.card{
+  background:white;border:1px solid var(--line);
+  border-radius:16px;padding:20px;margin-bottom:16px;
+}
+label{display:block;font-size:13px;font-weight:650;margin-bottom:9px}
+input{
+  width:100%;padding:13px;border:1px solid #DCE6E1;
+  border-radius:10px;outline:none;background:white;
+}
+input:focus{border-color:var(--green)}
+.field{margin-bottom:17px}
+.hint{font-size:12px;color:var(--muted);line-height:1.6;margin:12px 0 0}
+.nominals{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.nominal{
+  text-align:left;padding:14px 12px;background:white;
+  border:1px solid var(--line);border-radius:11px;color:var(--dark);
+}
+.nominal strong,.nominal small{display:block}
+.nominal strong{font-size:13px}
+.nominal small{margin-top:9px;color:var(--muted);font-size:12px}
+.nominal.active{border:1.5px solid var(--green);background:#EEFAF7}
+.payments{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.pay{
+  background:white;border:1px solid var(--line);border-radius:10px;
+  padding:12px 9px;text-align:left;color:var(--dark);font-size:12px;
+}
+.pay.active{border:1.5px solid var(--green);background:#EEFAF7}
+.pay b{display:block;font-size:13px;margin-bottom:5px}
+.row{display:flex;justify-content:space-between;gap:10px;margin:16px 0;font-size:13px}
+.muted{color:var(--muted)}
+.total{font-size:18px;font-weight:800}
+.btn{
+  width:100%;padding:15px;border:0;border-radius:11px;
+  background:var(--green);color:white;font-weight:750;
+}
+.btn:active{opacity:.85}
+.notice{
+  background:#F2F8F6;border-radius:10px;padding:12px;
+  color:#61746D;font-size:12px;line-height:1.6;margin-bottom:16px;
+}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+@media(max-width:650px){
+  main{padding:20px 15px 40px}
+  .hero{padding:23px 19px}
+  .hero-icon{font-size:35px}
+  .layout{grid-template-columns:1fr;gap:0}
+  .games{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Saka<span>Pay.</span></div>
+  <div class="brand">GAME TOPUP</div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1>Top up game,<br>lebih praktis.</h1>
+      <p>Pilih game, tentukan nominal, lalu kirim detail pesanan langsung ke admin SakaPay.</p>
+    </div>
+    <div class="hero-icon">↗</div>
+  </section>
+
+  <div class="section-title">01. Pilih game</div>
+  <div class="games" id="games">
+    <button class="game active" data-game="Mobile Legends">
+      <span class="emoji">⚔️</span>Mobile Legends
+    </button>
+    <button class="game" data-game="Free Fire">
+      <span class="emoji">🔥</span>Free Fire
+    </button>
+    <button class="game" data-game="PUBG Mobile">
+      <span class="emoji">🎯</span>PUBG Mobile
+    </button>
+    <button class="game" data-game="Genshin Impact">
+      <span class="emoji">✨</span>Genshin Impact
+    </button>
+    <button class="game" data-game="Roblox">
+      <span class="emoji">🧱</span>Roblox
+    </button>
+    <button class="game" data-game="Honor of Kings">
+      <span class="emoji">👑</span>Honor of Kings
+    </button>
+  </div>
+
+  <div class="layout">
+    <section>
+      <div class="section-title">02. Detail akun</div>
+      <div class="card">
+        <div class="field">
+          <label for="uid">User ID</label>
+          <input id="uid" placeholder="Masukkan User ID">
+        </div>
+        <div class="field">
+          <label for="zone">Zone ID / Server</label>
+          <input id="zone" placeholder="Jika diperlukan">
+        </div>
+        <p class="hint">Periksa kembali ID akun sebelum mengirim pesanan. Kami tidak membutuhkan password game kamu.</p>
+      </div>
+
+      <div class="section-title">03. Pilih nominal</div>
+      <div class="card">
+        <div class="nominals" id="nominals"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">04. Pembayaran</div>
+      <div class="card">
+        <div class="payments" id="payments">
+          <button class="pay active" data-pay="QRIS"><b>▦ QRIS</b>Scan kode QR</button>
+          <button class="pay" data-pay="DANA"><b>DANA</b>E-wallet</button>
+          <button class="pay" data-pay="GoPay"><b>GoPay</b>E-wallet</button>
+          <button class="pay" data-pay="ShopeePay"><b>ShopeePay</b>E-wallet</button>
+          <button class="pay" data-pay="OVO"><b>OVO</b>E-wallet</button>
+          <button class="pay" data-pay="Transfer Bank"><b>Bank</b>Transfer manual</button>
+        </div>
+        <p class="hint">Metode pembayaran di atas adalah pilihan pesanan. Pembayaran belum terintegrasi otomatis.</p>
+      </div>
+
+      <div class="section-title">Ringkasan pesanan</div>
+      <div class="card">
+        <div class="row"><span class="muted">Game</span><span id="sGame">Mobile Legends</span></div>
+        <div class="row"><span class="muted">Nominal</span><span id="sProduct">86 Diamonds</span></div>
+        <div class="row"><span class="muted">Metode</span><span id="sPay">QRIS</span></div>
+        <div class="row"><span class="muted">Invoice</span><span id="sInvoice">Dibuat saat pesan</span></div>
+        <hr style="border:0;border-top:1px solid var(--line)">
+        <div class="row total"><span>Total</span><span id="sTotal">Rp20.000</span></div>
+        <div class="notice">Pesanan akan dikirim ke WhatsApp admin. Admin memeriksa pembayaran dan memproses top up secara manual.</div>
+        <button class="btn" id="order">Pesan via WhatsApp ↗</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>© 2026 SakaPay · Game Top Up</footer>
+
+<script>
+const products={
+ "Mobile Legends":[["86 Diamonds",20000],["172 Diamonds",39000],["257 Diamonds",58000],["344 Diamonds",77000],["514 Diamonds",114000],["706 Diamonds",155000]],
+ "Free Fire":[["70 Diamonds",10000],["140 Diamonds",19000],["355 Diamonds",47000],["720 Diamonds",93000]],
+ "PUBG Mobile":[["60 UC",16000],["325 UC",79000],["660 UC",155000]],
+ "Genshin Impact":[["60 Genesis Crystals",16000],["300 Genesis Crystals",79000],["Welkin Moon",79000]],
+ "Roblox":[["80 Robux",16000],["400 Robux",75000],["800 Robux",145000]],
+ "Honor of Kings":[["80 Tokens",16000],["240 Tokens",47000],["400 Tokens",76000]]
+};
+
+let game="Mobile Legends",selected=0,payment="QRIS";
+const rupiah=n=>"Rp"+n.toLocaleString("id-ID");
+const $=id=>document.getElementById(id);
+
+function renderProducts(){
+  $("nominals").innerHTML="";
+  products[game].forEach((p,i)=>{
+    const b=document.createElement("button");
+    b.className="nominal"+(i===selected?" active":"");
+    const title=document.createElement("strong");
+    title.textContent=p[0];
+    const price=document.createElement("small");
+    price.textContent=rupiah(p[1]);
+    b.append(title,price);
+    b.onclick=()=>{selected=i;renderProducts();update()};
+    $("nominals").appendChild(b);
+  });
+  update();
+}
+function update(){
+  const p=products[game][selected];
+  $("sGame").textContent=game;
+  $("sProduct").textContent=p[0];
+  $("sPay").textContent=payment;
+  $("sTotal").textContent=rupiah(p[1]);
+}
+document.querySelectorAll(".game").forEach(b=>b.onclick=()=>{
+  game=b.dataset.game;selected=0;
+  document.querySelectorAll(".game").forEach(x=>x.classList.toggle("active",x===b));
+  renderProducts();
+});
+document.querySelectorAll(".pay").forEach(b=>b.onclick=()=>{
+  payment=b.dataset.pay;
+  document.querySelectorAll(".pay").forEach(x=>x.classList.toggle("active",x===b));
+  update();
+});
+$("order").onclick=()=>{
+  const uid=$("uid").value.trim(),zone=$("zone").value.trim();
+  if(!uid){alert("Masukkan User ID terlebih dahulu.");$("uid").focus();return}
+  const p=products[game][selected];
+  const invoice="SP-"+Date.now().toString().slice(-10);
+  $("sInvoice").textContent=invoice;
+  const message=[
+    "Halo Admin SakaPay, saya ingin memesan top up game.",
+    "",
+    "Invoice: "+invoice,
+    "Game: "+game,
+    "User ID: "+uid,
+    "Zone ID: "+(zone||"-"),
+    "Nominal top up: "+p[0],
+    "Total pesanan: "+rupiah(p[1]),
+    "Metode pembayaran pilihan: "+payment,
+    "",
+    "Mohon konfirmasi cara pembayaran. Saya akan mengirim bukti pembayaran setelah membayar."
+  ].join("\n");
+  // GANTI dengan nomor WhatsApp admin SakaPay.
+  const admin="6281234567890";
+  window.open("https://wa.me/"+admin+"?text="+encodeURIComponent(message),"_blank");
+};
+renderProducts();
+</script>
+</body>
+</html>

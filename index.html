@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SakaPay Official - Website Informasi Resmi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eefbf9',
+                            100: '#d5f5f0',
+                            200: '#aeebe1',
+                            300: '#75d9cb',
+                            400: '#3ebfae',
+                            500: '#17A897', // Primary Color #17A897
+                            600: '#118a7d',
+                            700: '#116e65',
+                            800: '#125851',
+                            900: '#134944',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    screens: {
+                        'xs': '475px',
+                        '2xl': '1440px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Touch target min height utility */
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- FLOATING WHATSAPP BUTTON (Touch Friendly) -->
+    <a href="https://wa.me/6285780243664?text=Halo%20Admin%20SakaPay,%20saya%20ingin%20bertanya%20mengenai%20layanan" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="fixed bottom-5 right-5 z-50 bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white p-3.5 sm:p-4 rounded-full shadow-2xl flex items-center justify-center transition-all transform hover:scale-105 group touch-target"
+       aria-label="Hubungi WhatsApp CS SakaPay">
+        <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl"></i>
+        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out font-bold text-xs sm:text-sm ml-0 group-hover:ml-2">
+            Chat CS SakaPay
+        </span>
+    </a>
+
+    <!-- 1. HEADER / NAVBAR -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+            
+            <!-- Logo SakaPay (Dynamic via JS LOGO_URL) -->
+            <a href="#hero" class="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-lg p-1">
+                <div id="logoContainer" class="flex items-center gap-2">
+                    <!-- Default Fallback SVG Icon jika gambar kosong/error -->
+                    <div id="defaultLogoIcon" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-brand-500 flex items-center justify-center text-white font-extrabold text-lg sm:text-xl shadow-md">
+                        <i class="fa-solid fa-wallet text-base sm:text-lg"></i>
+                    </div>
+                    <!-- Elemen Gambar Logo (Ubah via variabel LOGO_URL di skrip JavaScript) -->
+                    <img id="app-logo" src="" alt="SakaPay Logo" class="h-8 sm:h-10 max-w-[160px] object-contain hidden">
+                    
+                    <div class="leading-tight">
+                        <span class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">Saka<span class="text-brand-500">Pay</span></span>
+                        <span class="block text-[9px] sm:text-[10px] text-slate-500 font-medium">Official Website</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Navigation Links (Desktop & Laptop) -->
+            <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-xs lg:text-sm font-semibold text-slate-600">
+                <a href="#hero" class="hover:text-brand-500 transition py-2">Beranda</a>
+                <a href="#layanan" class="hover:text-brand-500 transition py-2">Layanan</a>
+                <a href="#operasional" class="hover:text-brand-500 transition py-2">Jam Kerja CS</a>
+                <a href="#lokasi" class="hover:text-brand-500 transition py-2">Lokasi Kantor</a>
+            </nav>
+
+            <!-- Header Right: WA Button & Mobile Menu Toggle -->
+            <div class="flex items-center gap-3">
+                <a href="https://wa.me/6281234567890?text=Halo%20Admin%20SakaPay" 
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="hidden xs:flex px-3.5 py-2 sm:px-4 sm:py-2.5 bg-brand-500 hover:bg-brand-600 active:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-bold transition items-center gap-2 shadow-sm touch-target justify-center">
+                    <i class="fa-brands fa-whatsapp text-sm sm:text-base"></i>
+                    <span>Hubungi CS</span>
+                </a>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobileMenuBtn" 
+                        type="button"
+                        class="md:hidden text-slate-700 hover:text-brand-500 p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500 touch-target flex items-center justify-center"
+                        aria-label="Buka Menu Navigasi">
+                    <i id="mobileMenuIcon" class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Overlay / Dropdown Navigation -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 shadow-xl transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-2 font-semibold text-sm text-slate-700">
+                <a href="#hero" class="mobile-nav-item flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 hover:text-brand-500 transition">
+                    <i class="fa-solid fa-house text-brand-500 w-5"></i>
+                    <span>Beranda</span>
+                </a>
+                <a href="#layanan" class="mobile-nav-item flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 hover:text-brand-500 transition">
+                    <i class="fa-solid fa-grid-2 text-brand-500 w-5"></i>
+                    <span>Daftar Layanan</span>
+                </a>
+                <a href="#operasional" class="mobile-nav-item flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 hover:text-brand-500 transition">
+                    <i class="fa-solid fa-clock text-brand-500 w-5"></i>
+                    <span>Jam Kerja CS</span>
+                </a>
+                <a href="#lokasi" class="mobile-nav-item flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 hover:text-brand-500 transition">
+                    <i class="fa-solid fa-location-dot text-brand-500 w-5"></i>
+                    <span>Lokasi Kantor</span>
+                </a>
+                <div class="pt-2">
+                    <a href="https://wa.me/6281234567890?text=Halo%20Admin%20SakaPay" 
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold text-sm shadow-sm">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Chat WhatsApp Customer Service</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        
+        <!-- 2. HERO SECTION -->
+        <section id="hero" class="py-12 sm:py-20 lg:py-24 bg-gradient-to-b from-brand-50/70 via-white to-white border-b border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100/70 border border-brand-200 text-brand-700 text-xs font-bold mb-6">
+                    <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                    <span>Official Portal Informatif SakaPay</span>
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight sm:leading-tight">
+                    Solusi Layanan Pembayaran <span class="text-brand-500">Digital & PPOB</span> Terpercaya
+                </h1>
+
+                <p class="text-slate-600 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto mt-4 sm:mt-6 mb-8 leading-relaxed">
+                    SakaPay menghadirkan kemudahan transaksi produk digital mulai dari pulsa, paket data, voucher game, token PLN, hingga pembayaran tagihan PPOB terlengkap.
+                </p>
+
+                <div class="flex flex-col xs:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto">
+                    <a href="https://wa.me/6285780243664?text=Halo%20Admin%20SakaPay,%20saya%20butuh%20bantuan" 
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="w-full xs:w-auto px-7 py-3.5 bg-brand-500 hover:bg-brand-600 active:bg-brand-700 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 touch-target">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Tanya CS WhatsApp</span>
+                    </a>
+                    <a href="#layanan" 
+                       class="w-full xs:w-auto px-6 py-3.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-sm rounded-xl transition flex items-center justify-center gap-2 touch-target">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Lihat Layanan</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. DAFTAR LAYANAN -->
+        <section id="layanan" class="py-12 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+                <span class="text-xs font-bold text-brand-500 uppercase tracking-widest">Produk & Fitur</span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-1">Layanan Utama SakaPay</h2>
+                <p class="text-slate-600 text-xs sm:text-sm mt-2">Berbagai jenis pembayaran digital lengkap yang siap melayani kebutuhan Anda</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6">
+                
+                <!-- Layanan 1 -->
+                <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:border-brand-300 hover:shadow-md transition group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center text-xl mb-4 font-bold group-hover:bg-brand-500 group-hover:text-white transition">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-2">Pulsa & Paket Data</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                            Pengisian pulsa reguler dan paket kuota internet cepat untuk semua operator seluler Indonesia (Telkomsel, Indosat, XL, Tri, Smartfren, Axis).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Layanan 2 -->
+                <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:border-brand-300 hover:shadow-md transition group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center text-xl mb-4 font-bold group-hover:bg-brand-500 group-hover:text-white transition">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-2">E-Wallet & Transfer</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                            Top up saldo e-Money lengkap (DANA, OVO, GoPay, ShopeePay, LinkAja) serta layanan transfer ke seluruh bank nasional.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Layanan 3 -->
+                <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:border-brand-300 hover:shadow-md transition group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center text-xl mb-4 font-bold group-hover:bg-brand-500 group-hover:text-white transition">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-2">Token PLN & Listrik</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                            Pembelian token stroom PLN prabayar nominal fleksibel dan pembayaran tagihan listrik pascabayar bulanan.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Layanan 4 -->
+                <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:border-brand-300 hover:shadow-md transition group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center text-xl mb-4 font-bold group-hover:bg-brand-500 group-hover:text-white transition">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-2">Voucher Game Online</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                            Top up diamond & credit game populer seperti Mobile Legends, Free Fire, PUBG Mobile UC, Genshin Impact, dan Steam Wallet.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Layanan 5 -->
+                <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:border-brand-300 hover:shadow-md transition group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center text-xl mb-4 font-bold group-hover:bg-brand-500 group-hover:text-white transition">
+                            <i class="fa-solid fa-file-invoice"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-2">Tagihan PPOB Bulanan</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                            Pembayaran tagihan rutin bulanan mencakup BPJS Kesehatan, PDAM Air Bersih, Telkom / Indihome, TV Berlangganan, dan Multifinance.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Layanan 6 -->
+                <div class="bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:border-brand-300 hover:shadow-md transition group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center text-xl mb-4 font-bold group-hover:bg-brand-500 group-hover:text-white transition">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-2">Kemitraan & Agen</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                            Pendaftaran akun agen SakaPay untuk memulai bisnis konter pulsa dan Loket PPOB secara mandiri dengan keuntungan optimal.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. JAM OPERASIONAL (KHUSUS CS) -->
+        <section id="operasional" class="py-12 sm:py-20 bg-slate-900 text-white relative overflow-hidden">
+            <div class="absolute -right-20 -top-20 w-72 h-72 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-400 bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/30 inline-block mb-3">
+                            Informasi Pelayanan
+                        </span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Jam Kerja Customer Service</h2>
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mt-3 mb-6">
+                            Tim Customer Service SakaPay siap membantu Anda untuk penanganan kendala, konfirmasi deposit, dan pertanyaan seputar layanan produk digital kami.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- KARTU KHUSUS CUSTOMER SERVICE (CS) ONLY -->
+                        <div class="bg-slate-800/90 border border-slate-700/80 p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center gap-5 shadow-xl hover:border-brand-500/50 transition">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl font-bold flex-shrink-0">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <h3 class="font-bold text-white text-base sm:text-lg">Layanan Customer Service (CS)</h3>
+                                <p class="text-emerald-400 font-extrabold text-lg sm:text-xl">08:00 - 23:00 WIB</p>
+                                <span class="text-xs text-slate-400 block pt-1">Bantuan kendala & informasi resmi via WhatsApp Chat</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. LOKASI KANTOR -->
+        <section id="lokasi" class="py-12 sm:py-20 bg-white border-t border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    
+                    <!-- Detail Alamat -->
+                    <div>
+                        <span class="text-xs font-bold text-brand-500 uppercase tracking-widest">Kantor Operasional</span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-1 mb-4">Lokasi & Alamat Resmi</h2>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 sm:mb-8">
+                            Kantor operasional SakaPay melayani keperluan informasi PPOB. Disarankan untuk berkoordinasi dengan Customer Service terlebih dahulu sebelum berkunjung.
+                        </p>
+
+                        <div class="space-y-4 sm:space-y-5 text-xs sm:text-sm text-slate-700">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-location-dot text-base"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-slate-900 font-bold">Alamat Kantor:</strong>
+                                    Jl. Tapus. RW 09 RT 02, Tulang Bawang Udik, Tulang Bawang Barat
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-envelope text-base"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-slate-900 font-bold">Email Resmi:</strong>
+                                    sakapay404@gmail.com
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-slate-900 font-bold">WhatsApp CS Official:</strong>
+                                    +62 857-8024-3664
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive / Responsive Map Preview Card -->
+                    <div class="bg-brand-50/60 border border-brand-100 rounded-3xl p-6 sm:p-8 text-center flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-brand-500 text-3xl mb-4">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base sm:text-lg">Petunjuk Navigasi Lokasi</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm max-w-xs mt-1 mb-6">
+                            Klik tombol di bawah untuk membuka peta lokasi kantor SakaPay via Google Maps.
+                        </p>
+                        <a href="https://maps.google.com" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="w-full sm:w-auto px-6 py-3.5 bg-brand-500 hover:bg-brand-600 active:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2 touch-target">
+                            <i class="fa-solid fa-directions text-base"></i>
+                            <span>Buka Google Maps</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. BANNER CALL TO ACTION WHATSAPP -->
+        <section class="py-12 sm:py-16 bg-gradient-to-r from-brand-500 to-brand-600 text-white">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-2xl sm:text-4xl font-extrabold mb-3">Butuh Bantuan CS SakaPay?</h2>
+                <p class="text-brand-100 text-xs sm:text-base max-w-xl mx-auto mb-8">
+                    Hubungi Customer Service kami melalui WhatsApp untuk mendapatkan layanan cepat dan ramah.
+                </p>
+                <a href="https://wa.me/625780243664?text=Halo%20Admin%20SakaPay,%20saya%20ingin%20bertanya" 
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-white hover:bg-slate-100 active:bg-slate-200 text-brand-800 font-extrabold text-xs sm:text-sm rounded-2xl shadow-xl transition transform hover:-translate-y-0.5 touch-target">
+                    <i class="fa-brands fa-whatsapp text-xl text-emerald-600"></i>
+                    <span>Hubungi CS via WhatsApp</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-8 sm:py-10 text-xs text-center border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <p class="font-extrabold text-slate-200 text-sm sm:text-base mb-1">SakaPay Official</p>
+            <p class="text-slate-500 mb-4 text-xs">Platform Informasi Layanan Digital & PPOB Terpercaya</p>
+            <p class="text-slate-500">&copy; 2026 SakaPay Official. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC & NAVIGATION CONTROL -->
+    <script>
+        // =========================================================================
+        // PENGATURAN LOGO SAKAPAY (Ganti URL logo di bawah ini langsung dari kode)
+        // Contoh: const LOGO_URL = "https://domainanda.com/logo-sakapay.png";
+        // =========================================================================
+        const LOGO_URL = ""; 
+
+        /**
+         * Inisialisasi tampilan Logo SakaPay (Fallback ke ikon SVG jika URL kosong/gagal)
+         */
+        function initLogo() {
+            const logoImg = document.getElementById('app-logo');
+            const defaultIcon = document.getElementById('defaultLogoIcon');
+
+            if (LOGO_URL && LOGO_URL.trim() !== "") {
+                logoImg.src = LOGO_URL;
+                logoImg.onerror = function() {
+                    logoImg.classList.add('hidden');
+                    defaultIcon.classList.remove('hidden');
+                };
+                logoImg.onload = function() {
+                    logoImg.classList.remove('hidden');
+                    defaultIcon.classList.add('hidden');
+                };
+            } else {
+                logoImg.classList.add('hidden');
+                defaultIcon.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Responsive Mobile Navigation Menu Drawer Toggle
+         */
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+
+            if (!mobileMenuBtn || !mobileMenu) return;
+
+            mobileMenuBtn.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenuIcon.classList.remove('fa-bars');
+                    mobileMenuIcon.classList.add('fa-xmark');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuIcon.classList.remove('fa-xmark');
+                    mobileMenuIcon.classList.add('fa-bars');
+                }
+            });
+
+            // Tutup menu otomatis saat item menu diklik
+            const navItems = mobileMenu.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuIcon.classList.remove('fa-xmark');
+                    mobileMenuIcon.classList.add('fa-bars');
+                });
+            });
+        }
+
+        // Jalankan seluruh skrip saat dokumen selesai dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            initLogo();
+            initMobileMenu();
+        });
+    </script>
+</body>
+</html>
+```
